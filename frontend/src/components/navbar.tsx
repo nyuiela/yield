@@ -64,7 +64,9 @@ const Navbar = () => {
 
             {/* <TiThMenuOutline fontSize={25} className='hover:cursor-pointer' onClick={toggle} /> */}
             <Leaf className="h-6 w-6 m-0 text-green-600" />
-            <a href="" rel="noopener noreferrer" className='mx-0 text-green-600 font-semibold'>Yield</a>
+            <a href="" rel="noopener noreferrer" className='mx-0 text-green-600 font-semibold'>Yield
+               <span className='text-gray-500 font-normal'>.prototype</span>
+            </a>
          </div>
          <form action='' method='' onSubmit={handleSearch} className="w-[50vw] lg:w-[40vw] h-[2.5rem] rounded-md bg-gray-00 flex  border border-gray-00 focus:border-gray-00 relative max-sm:hidden overflow-hidden mx-4
          ">
