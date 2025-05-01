@@ -10,7 +10,7 @@ import { useSmartAccount } from '@particle-network/connectkit'
 import queryContract from '@/app/context/query'
 import { gql } from 'graphql-request'
 
-const Statistics = ({id}: {id?: number}) => {
+const Statistics = ({ id }: { id?: number }) => {
    const smartAccount = useSmartAccount()
    const [address, setAddress] = useState<string>()
    const [data, setData] = useState<any>({})
@@ -27,7 +27,7 @@ const Statistics = ({id}: {id?: number}) => {
         blockNumber
       }
     }`
- 
+
    useEffect(() => {
       async function get() {
          const account = await smartAccount?.getAccount()
@@ -45,23 +45,24 @@ const Statistics = ({id}: {id?: number}) => {
                const index = res.data.yieldMinteds.length - 1;
                yieldId = res.data.yieldMinteds[index].yieldId
             }
+            if (!yieldId) return setData({})
             const totalSupply = await yieldTokenContract.methods.totalSupply(yieldId).call().then((res: any) => {
-               setData((prev: any) => ({ ...prev, totalSupply: Number(res.toString())}))
+               setData((prev: any) => ({ ...prev, totalSupply: Number(res.toString()) }))
                return res
-            }) 
+            })
             const balance = await yieldTokenContract.methods.balanceOf(address, yieldId).call().then((res: any) => {
-               setData((prev: any) => ({ ...prev, balance: Number(res.toString())}))
+               setData((prev: any) => ({ ...prev, balance: Number(res.toString()) }))
                return res
 
             });
             // console.log(`Token balance for ${address}:`, balance);
-            const yieldData = await yieldTokenContract.methods.yieldData(yieldId).call({ from: address}).then((res: any) => {
-               setData((prev: any) => ({ ...prev, totalYield: Number(res.totalYield.toString()), season: Number(res.season.toString())}))
+            const yieldData = await yieldTokenContract.methods.yieldData(yieldId).call({ from: address }).then((res: any) => {
+               setData((prev: any) => ({ ...prev, totalYield: Number(res.totalYield.toString()), season: Number(res.season.toString()) }))
                return res
             })
             const valuation = await yieldLendingContract.methods
                .getYieldValuationInUsdc(yieldId)
-               .call({ from: address }).then((res: any)=> {
+               .call({ from: address }).then((res: any) => {
                   setData((prev: any) => ({ ...prev, evaluation: Number(res.toString()) }))
                   return res
                })
@@ -72,18 +73,18 @@ const Statistics = ({id}: {id?: number}) => {
             //       return res
             //    })
             //    console.log(geo)
-               // Update state with the fetched valuation
-            } catch (error) {
-               console.error('Error fetching valuation:', error)
-            }
+            // Update state with the fetched valuation
+         } catch (error) {
+            console.error('Error fetching valuation:', error)
          }
-         
-         if (address) {
-            getValuation() // Trigger the async function
-         }
-      }, [address, id, query])
-      console.log(data)
-      
+      }
+
+      if (address) {
+         getValuation() // Trigger the async function
+      }
+   }, [address, id, query])
+   console.log(data)
+
    return (
       <div className="w-full h-[18rem] mt-5 p-2 px-0 flex gap-3 overflow-auto custom-scroll">
          <Summary header="Total Supply" data={data.totalSupply || 0} className="bg-black shrink-0" />
@@ -104,10 +105,10 @@ const Statistics = ({id}: {id?: number}) => {
                <Mincard />
             </div> */}
             <div className="w-full h-full overflow-hidden flex">
-               <Mincard name='Pool' value='0'/>
+               <Mincard name='Pool' value='0' />
                <Mincard name='Borrowed' value='0' />
             </div>
-            <BorrowModal id={id}/>
+            <BorrowModal id={id} />
             <RepayModal id={id} />
          </div>
       </div>

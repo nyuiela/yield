@@ -68,11 +68,19 @@ const LandParcel = ({ id }: { id: number }) => {
 
       })
    const [loading, setLoading] = useState<boolean>(false)
+   const [error, setError] = useState<string>('')
    const router = useRouter()
    const getYieldInfo = async (id?: number) => {
+      setError('')
+      if (!id) return setError("No id found")
       setLoading(true)
       const res = await fetch(`/api/register?id=${id}`);
       const data = await res.json()
+      if (data.error) {
+         setLoading(false);
+         setError(`No yield found with id ${id}`)
+         return
+      }
       console.log("data", data)
       // if (!data.error)
       setParcel({ ...data, data: {}, })
@@ -96,10 +104,9 @@ const LandParcel = ({ id }: { id: number }) => {
 
    return (
       <div className="w-full h-full text-black shadow-lg rounded-lg p-2 py-5 overflow-x-hidden custom-scroll">
-
          {loading ? <div className='w-full bg-[#F7F7FF] h-full flex justify-center items-center rounded-md'>
             <span className="loading loading-dots loading-md"></span>
-         </div> : (
+         </div> : (error ? <div className='w-full bg-[#F7F7FF] h-full flex justify-center items-center rounded-md'>{error}</div> :
             <div>
                <div className="w-full pb-4 mb-4 p-5 bg-white shadow-sm rounded-xl">
                   <h3 className="text-md font-semibold my-2 text-center">Location
