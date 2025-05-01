@@ -15,7 +15,7 @@ import Web3 from 'web3';
 
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID as string
 const clientKey = process.env.NEXT_PUBLIC_CLIENT_KEY as string
-const appId = process.env.NEXT_PUBLIC_APP_ID as string
+const appId = process.env.NEXT_PUBLIC_PARTICLE_APP_ID as string
 const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID as string
 
 if (!projectId || !clientKey || !appId) {
@@ -91,10 +91,10 @@ const smartAccount = new SmartAccount(web3.currentProvider, {
       // biconomy: [{ chainId: baseSepolia.id, version: '2.0.0' }],
       accountContracts: {
          BICONOMY: [{
-           version: '2.0.0',
-           chainIds: [baseSepolia.id]
+            version: '2.0.0',
+            chainIds: [baseSepolia.id]
          }]
-       },
+      },
       // paymasterApiKeys: [{
       //    chainId: baseSepolia.id,
       //    apiKey: ""

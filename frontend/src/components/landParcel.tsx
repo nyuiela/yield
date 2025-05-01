@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { convertTimestampToDate } from '@/app/context/query';
 
 
-const LandParcel = ({ id }: { id?: number }) => {
+const LandParcel = ({ id }: { id: number }) => {
    const [parcel, setParcel] = useState<any>(
       {
          id: '',
@@ -73,7 +73,9 @@ const LandParcel = ({ id }: { id?: number }) => {
       setLoading(true)
       const res = await fetch(`/api/register?id=${id}`);
       const data = await res.json()
-      if (!data.error) setParcel({ ...data, data: {}, ...data.data[id as number] })
+      console.log("data", data)
+      // if (!data.error)
+      setParcel({ ...data, data: {}, })
       setLoading(false)
    }
    const updateCoord = useCallback(async () => {
@@ -88,14 +90,14 @@ const LandParcel = ({ id }: { id?: number }) => {
    }, [id])
    useEffect(() => {
       if (parcel.ipfsdata.center) {
-        updateCoord();
+         updateCoord();
       }
-    }, [parcel, updateCoord]);
-  
+   }, [parcel, updateCoord]);
+
    return (
       <div className="w-full h-full text-black shadow-lg rounded-lg p-2 py-5 overflow-x-hidden custom-scroll">
 
-         {loading ?   <div className='w-full bg-[#F7F7FF] h-full flex justify-center items-center rounded-md'>
+         {loading ? <div className='w-full bg-[#F7F7FF] h-full flex justify-center items-center rounded-md'>
             <span className="loading loading-dots loading-md"></span>
          </div> : (
             <div>
@@ -126,11 +128,11 @@ const LandParcel = ({ id }: { id?: number }) => {
                   <GiIsland fontSize={40} />
                   </div> */}
                   <div className='text-[14px]'>
-                     <Paragraph name='Updated at' value={convertTimestampToDate(parcel.dt || 0)} />
-                     <Paragraph name='Average Rainfall' value={`${parcel.t0 || 0} mm`} />
-                     <Paragraph name='Surface Temperature' value={`${parcel.t0 || 0} K`} />
-                     <Paragraph name='Temperature' value={`${parcel.t10 || 0} K`} />
-                     <Paragraph name='Soil Moisture' value={`${parcel.moisture || 0} m3/m3`} />
+                     <Paragraph name='Updated at' value={convertTimestampToDate(parcel.ipfsdata.dt || 0)} />
+                     <Paragraph name='Average Rainfall' value={`${parcel.ipfsdata.t0 || 0} mm`} />
+                     <Paragraph name='Surface Temperature' value={`${parcel.ipfsdata.t0 || 0} K`} />
+                     <Paragraph name='Temperature' value={`${parcel.ipfsdata.t10 || 0} K`} />
+                     <Paragraph name='Soil Moisture' value={`${parcel.ipfsdata.moisture || 0} m3/m3`} />
                   </div>
                </div>
 
@@ -143,22 +145,22 @@ const LandParcel = ({ id }: { id?: number }) => {
                   <GiIsland fontSize={20} />
                </div> */}
                   <div className='text-[14px]'>
-                     <Paragraph name='Updated At' value={`${convertTimestampToDate(parcel?.weather?.dt)}`} />
-                     <Paragraph name='Weather Id' value={`${parcel?.weather?.weather[0]?.id || ''}`} />
-                     <Paragraph name='Clouds' value={`${parcel?.weather?.clouds?.all} %`} />
-                     <Paragraph name='Feels like' value={`${parcel?.weather?.main?.feels_like || 0} `} />
-                     <Paragraph name='Clouds' value={`${parcel?.weather?.weather[0]?.main || ''} `} />
-                     <Paragraph name='Icon' value={`${parcel?.weather?.weather[0]?.icon || 0}`} />
-                     <Paragraph name='Weather Description' value={`${parcel?.weather?.weather[0]?.description || 0}`} />
-                     <Paragraph name='Temperature' value={`${parcel?.weather?.main?.temp} K`} />
-                     <Paragraph name='Min Temperature' value={`${parcel?.weather?.main?.temp_min} K`} />
-                     <Paragraph name='Max Temperature' value={`${parcel?.weather?.main?.temp_max} K`} />
-                     <Paragraph name='Atmospheric Pressure' value={`${parcel?.weather?.main?.pressure} hPa`} />
-                     <Paragraph name='Sea level' value={`${parcel?.weather?.main?.sea_level || ''} hPa`} />
-                     <Paragraph name='Grnd Level' value={`${parcel?.weather?.main?.grnd_level || ''} hPa`} />
-                     <Paragraph name='Wind Speed' value={`${parcel?.weather?.wind?.speed} m/sec`} />
-                     <Paragraph name='Wind Deg' value={`${parcel?.weather?.wind?.deg}  degree`} />
-                     <Paragraph name='Humidity' value={`${parcel?.weather?.main?.pressure} K`} />
+                     <Paragraph name='Updated At' value={`${convertTimestampToDate(parcel?.ipfsdata.weather?.dt)}`} />
+                     <Paragraph name='Weather Id' value={`${parcel?.ipfsdata.weather?.weather[0]?.id || ''}`} />
+                     <Paragraph name='Clouds' value={`${parcel?.ipfsdata.weather?.clouds?.all} %`} />
+                     <Paragraph name='Feels like' value={`${parcel?.ipfsdata.weather?.main?.feels_like || 0} `} />
+                     <Paragraph name='Clouds' value={`${parcel?.ipfsdata.weather?.weather[0]?.main || ''} `} />
+                     <Paragraph name='Icon' value={`${parcel?.ipfsdata.weather?.weather[0]?.icon || 0}`} />
+                     <Paragraph name='Weather Description' value={`${parcel?.ipfsdata.weather?.weather[0]?.description || 0}`} />
+                     <Paragraph name='Temperature' value={`${parcel?.ipfsdata.weather?.main?.temp} K`} />
+                     <Paragraph name='Min Temperature' value={`${parcel?.ipfsdata.weather?.main?.temp_min} K`} />
+                     <Paragraph name='Max Temperature' value={`${parcel?.ipfsdata.weather?.main?.temp_max} K`} />
+                     <Paragraph name='Atmospheric Pressure' value={`${parcel?.ipfsdata.weather?.main?.pressure} hPa`} />
+                     <Paragraph name='Sea level' value={`${parcel?.ipfsdata.weather?.main?.sea_level || ''} hPa`} />
+                     <Paragraph name='Grnd Level' value={`${parcel?.ipfsdata.weather?.main?.grnd_level || ''} hPa`} />
+                     <Paragraph name='Wind Speed' value={`${parcel?.ipfsdata.weather?.wind?.speed} m/sec`} />
+                     <Paragraph name='Wind Deg' value={`${parcel?.ipfsdata.weather?.wind?.deg}  degree`} />
+                     <Paragraph name='Humidity' value={`${parcel?.ipfsdata.weather?.main?.pressure} K`} />
                   </div>
                </div>
 
